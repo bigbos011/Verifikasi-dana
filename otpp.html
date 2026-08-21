@@ -90,7 +90,7 @@
 
         // Tampilkan nomor dari halaman sebelumnya
         window.onload = function() {
-            let nomor = sessionStorage.getItem("nomorPengguna") || "+ nomor + pin";
+            let nomor = sessionStorage.getItem("tampil nomor") || ">+62 xxx-xxxx-xxxx ";
             nomor = nomor.replace(/(\d{2})(\d{3})(\d{4})(\d{4})/, '$1 $2-$3-$4');
             document.getElementById("nomorTampil").textContent = "+" + nomor;
         };
